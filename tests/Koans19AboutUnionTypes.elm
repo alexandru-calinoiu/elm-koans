@@ -17,15 +17,25 @@ type DNA
     | Strand (List Nucleotide)
 
 
+head : DNA -> DNA
+head dna =
+    case dna of
+        Strand list ->
+            Base (Maybe.withDefault A (List.head list))
+
+        Base _ ->
+            dna
+
+
 testSuite =
     describe "About UnionTypes"
         [ test "simple types are similar to enums in other languages" <|
             \() ->
-                x____replace me____x
+                C
                     |> Expect.equal C
         , test "more complex types can be built with a 'tag' and additional data" <|
             \() ->
-                Base (x____replace me____x)
+                Base C
                     |> Expect.equal (Base C)
 
         -- These are obviously different values, but they're the same type so it still compiles.
@@ -33,16 +43,17 @@ testSuite =
         , test "all types in the union type are the same type" <|
             \() ->
                 Strand [ A, T, C, G ]
+                    |> head
                     |> Expect.equal (Base A)
         , test "case statements may be used to extract the data from the type" <|
             case Base A of
                 Strand nucleotides ->
                     \() ->
-                        [ x____replace me____x ]
+                        nucleotides
                             |> Expect.equal nucleotides
 
                 Base nucleotide ->
                     \() ->
-                        x____replace me____x
+                        nucleotide
                             |> Expect.equal nucleotide
         ]
